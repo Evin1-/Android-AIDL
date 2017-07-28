@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">MinimalAIDL</string>
+    <string name="save_user">Save User</string>
+    <string name="load_user">Load User</string>
 </resources>
