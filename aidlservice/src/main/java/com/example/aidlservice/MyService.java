@@ -8,10 +8,11 @@ import android.os.IBinder;
 import android.os.RemoteException;
 import android.util.Log;
 
-import com.example.aidlapp.IEdwinInterface;
+import com.example.aidlapp.IRemoteInterface;
 import com.example.aidlapp.User;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MyService extends Service {
     private static final String TAG = "MyServiceTAG_";
@@ -32,7 +33,7 @@ public class MyService extends Service {
         return binder;
     }
 
-    private final IEdwinInterface.Stub binder = new IEdwinInterface.Stub() {
+    private final IRemoteInterface.Stub binder = new IRemoteInterface.Stub() {
 
         @Override
         public void addUser(User user) throws RemoteException {
@@ -47,6 +48,11 @@ public class MyService extends Service {
                 return users.get(position);
             }
             return null;
+        }
+
+        @Override
+        public List<User> retrieveUsers() throws RemoteException {
+            return users;
         }
     };
 }

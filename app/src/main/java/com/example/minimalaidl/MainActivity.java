@@ -11,27 +11,28 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-import com.example.aidlapp.IEdwinInterface;
+import com.example.aidlapp.IRemoteInterface;
 import com.example.aidlapp.User;
 
 import java.util.Date;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = "MainActivityTAG_";
 
-    private IEdwinInterface edwinInterface;
+    private IRemoteInterface remoteInterface;
     private ServiceConnection serviceConnection = new ServiceConnection() {
 
         @Override
         public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
-            edwinInterface = IEdwinInterface.Stub.asInterface(iBinder);
+            remoteInterface = IRemoteInterface.Stub.asInterface(iBinder);
             Log.d(TAG, "onServiceConnected: ");
         }
 
         @Override
         public void onServiceDisconnected(ComponentName componentName) {
-            edwinInterface = null;
+            remoteInterface = null;
             Log.d(TAG, "onServiceDisconnected: ");
         }
     };
@@ -52,16 +53,15 @@ public class MainActivity extends AppCompatActivity {
 
     public void saveMagic(View view) {
         try {
-            edwinInterface.addUser(new User("Edwin", 26, new Date()));
+            remoteInterface.addUser(new User("Edwin", 26, new Date()));
         } catch (RemoteException e) {
-            Log.d(TAG, "saveMagic: " + e);
             e.printStackTrace();
         }
     }
 
     public void loadMagic(View view) {
         try {
-            User user = edwinInterface.retrieveUser(1);
+            User user = remoteInterface.retrieveUser(1);
             Log.d(TAG, "loadMagic: " + user);
         } catch (RemoteException e) {
             e.printStackTrace();
@@ -69,4 +69,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    public void retrieveMagic(View view) {
+        try {
+            List<User> users = remoteInterface.retrieveUsers();
+            Log.d(TAG, "retrieveMagic: " + users);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
 }
